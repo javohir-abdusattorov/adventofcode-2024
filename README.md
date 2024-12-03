@@ -2,7 +2,7 @@
 Website - https://adventofcode.com/2024
 
 #### Last solved
-Day 2 - https://adventofcode.com/2024/day/2
+Day 3 - https://adventofcode.com/2024/day/3
 
 #### Run
 ```bash

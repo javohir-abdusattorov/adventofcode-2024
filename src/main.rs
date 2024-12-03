@@ -3,6 +3,7 @@ use std::io::Read;
 use std::time::Instant;
 use std::iter;
 use itertools::Itertools;
+use regex::Regex;
 
 fn main() {
     let day = read_day();
@@ -15,6 +16,8 @@ fn main() {
         1 => day_1(input),
         2 => day_2(input),
         3 => day_3(input),
+        4 => day_4(input),
+        5 => day_5(input),
         _ => panic!("Solution not implemented for day #{day}")
     };
 
@@ -60,8 +63,21 @@ fn day_2(input: String) -> i32 {
         .count() as i32
 }
 
-fn day_3(_: String) -> i32 {
-    0
+fn day_3(input: String) -> i32 {
+    Regex
+        ::new(r"mul\([0-9]+,[0-9]+\)")
+        .unwrap()
+        .find_iter(&input)
+        .fold(0, |acc, str| {
+            acc + str
+                .as_str()
+                .to_string()
+                .replace(")", "")
+                .replace("mul(", "")
+                .split(",")
+                .filter_map(|str| str.parse::<i32>().ok())
+                .fold(1, |r, n| r * n)
+        })
 }
 
 fn day_4(_: String) -> i32 {
