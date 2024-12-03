@@ -40,10 +40,35 @@ fn day_1(input: String) -> i32 {
 }
 
 fn day_2(input: String) -> i32 {
+    input
+        .split("\n")
+        .filter(|line| {
+            let line = line.split_whitespace().filter_map(|str| str.parse::<i32>().ok()).collect::<Vec<i32>>();
+            let order = line[1] > line[0];
+
+            line
+                .iter()
+                .enumerate()
+                .skip(1)
+                .all(|(i, _)| {
+                    let diff = (line[i] - line[i - 1]).abs();
+                    let current_order = line[i] > line[i - 1];
+
+                    diff >= 1 && diff <= 3 && current_order == order
+                })
+        })
+        .count() as i32
+}
+
+fn day_3(_: String) -> i32 {
     0
 }
 
-fn day_3(input: String) -> i32 {
+fn day_4(_: String) -> i32 {
+    0
+}
+
+fn day_5(_: String) -> i32 {
     0
 }
 
