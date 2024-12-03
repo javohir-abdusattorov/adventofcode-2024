@@ -19,7 +19,7 @@ fn main() {
     };
 
     println!("Answer: {output}");
-    println!("Time: {} ns", instant.elapsed().as_micros())
+    println!("Time: {} ms", instant.elapsed().as_millis())
 }
 
 fn day_1(input: String) -> i32 {
