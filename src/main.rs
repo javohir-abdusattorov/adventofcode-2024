@@ -13,14 +13,18 @@ fn main() {
 
     let instant = Instant::now();
     let output = match (day, part) {
-        (1, 1)  => day_1_part_1(input),
-        (1, 2)  => day_1_part_2(input),
+        (1, 1) => day_1_part_1(input),
+        (1, 2) => day_1_part_2(input),
+
         (2, 1) => day_2_part_1(input),
         (2, 2) => day_2_part_2(input),
+
         (3, 1) => day_3_part_1(input),
         (3, 2) => day_3_part_2(input),
+
         (4, 1) => day_4_part_1(input),
         (4, 2) => day_4_part_2(input),
+        
         (5, 1) => day_5_part_1(input),
         (5, 2) => day_5_part_2(input),
         _ => panic!("Solution not implemented for day #{day} part #{part}")
