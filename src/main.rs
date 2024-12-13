@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap};
 use std::io::Read;
 use std::time::Instant;
@@ -24,7 +25,7 @@ fn main() {
 
         (4, 1) => day_4_part_1(input),
         (4, 2) => day_4_part_2(input),
-        
+
         (5, 1) => day_5_part_1(input),
         (5, 2) => day_5_part_2(input),
         _ => panic!("Solution not implemented for day #{day} part #{part}")
@@ -208,26 +209,22 @@ fn day_4_part_1(input: String) -> i32 {
         (1, 1),
     ];
 
-    x
-        .into_iter()
-        .fold(0, |total, (y, x)| {
-            total + directions
-                .iter()
-                .filter(|direction| {
-                    let mut current_y = y;
-                    let mut current_x = x;
+    x.into_iter().fold(0, |total, (y, x)| {
+        total + directions
+            .iter()
+            .filter(|direction| {
+                let mut current_y = y;
+                let mut current_x = x;
 
-                    word
-                        .iter()
-                        .all(|char| {
-                            current_y += direction.0;
-                            current_x += direction.1;
+                word.iter().all(|char| {
+                    current_y += direction.0;
+                    current_x += direction.1;
 
-                            current_y >= 0 && current_x >= 0 && current_y <= limit_y && current_x <= limit_x && &matrix[current_y as usize][current_x as usize] == char
-                        })
+                    current_y >= 0 && current_x >= 0 && current_y <= limit_y && current_x <= limit_x && &matrix[current_y as usize][current_x as usize] == char
                 })
-                .count()
-        }) as i32
+            })
+            .count()
+    }) as i32
 }
 
 fn day_4_part_2(input: String) -> i32 {
@@ -279,12 +276,89 @@ fn day_4_part_2(input: String) -> i32 {
 }
 
 
-fn day_5_part_1(_: String) -> i32 {
-    0
+fn day_5_part_1(input: String) -> i32 {
+    let mut parts = input.split("\n\n");
+    let m = parts
+        .next()
+        .unwrap()
+        .split("\n")
+        .fold(HashMap::new(), |mut m, line| {
+            let (a, b) = line.split("|").filter_map(|str| str.parse::<i32>().ok()).next_tuple().unwrap();
+            m.entry(a).or_insert(Vec::new()).push(b);
+
+            m
+        });
+
+    parts
+        .next()
+        .unwrap()
+        .split("\n")
+        .fold(0, |n, line| {
+            let numbers = line.split(",").filter_map(|str| str.parse::<i32>().ok()).collect::<Vec<i32>>();
+            for i in 1..numbers.len() {
+                if let Some(ordering) = m.get(&numbers[i - 1]) {
+                    if ordering.contains(&numbers[i]) {
+                        continue;
+                    }
+                }
+
+                return n;
+            }
+
+            n + numbers[numbers.len() / 2]
+        })
 }
 
-fn day_5_part_2(_: String) -> i32 {
-    0
+fn day_5_part_2(input: String) -> i32 {
+    let mut parts = input.split("\n\n");
+    let m = parts
+        .next()
+        .unwrap()
+        .split("\n")
+        .fold(HashMap::new(), |mut m, line| {
+            let (a, b) = line.split("|").filter_map(|str| str.parse::<i32>().ok()).next_tuple().unwrap();
+            m.entry(a).or_insert(Vec::new()).push(b);
+
+            m
+        });
+
+    parts
+        .next()
+        .unwrap()
+        .split("\n")
+        .map(|line| line.split(",").filter_map(|str| str.parse::<i32>().ok()).collect::<Vec<i32>>())
+        .filter(|numbers| {
+            !numbers
+                .iter()
+                .zip(numbers.iter().skip(1))
+                .all(|(prev, current)| {
+                    let ordering = m.get(&prev);
+                    ordering.is_some() && ordering.unwrap().contains(current)
+                })
+        })
+        .map(|mut numbers| {
+            numbers.sort_by(|a, b| {
+                let a_ordering = m.get(a);
+                let b_ordering = m.get(b);
+
+                if let Some(a) = a_ordering {
+                    if a.contains(b) {
+                        return Ordering::Greater;
+                    }
+                }
+
+                if let Some(b) = b_ordering {
+                    if b.contains(a) {
+                        return Ordering::Less;
+                    }
+                }
+
+                std::cmp::Ordering::Equal
+            });
+
+            numbers
+        })
+        .fold(0, |n, numbers| n + numbers[numbers.len() / 2])
 }
 
 
