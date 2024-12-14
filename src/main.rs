@@ -2,7 +2,7 @@ use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap};
 use std::io::Read;
 use std::time::Instant;
-use std::{iter, vec};
+use std::{i128, iter, vec};
 use itertools::Itertools;
 use regex::Regex;
 
@@ -13,7 +13,7 @@ fn main() {
     println!("Running for day #{day} part #{part}");
 
     let instant = Instant::now();
-    let output = match (day, part) {
+    let output: i32 = match (day, part) {
         (1, 1) => day_1_part_1(input),
         (1, 2) => day_1_part_2(input),
 
@@ -32,8 +32,8 @@ fn main() {
         (6, 1) => day_6_part_1(input),
         (6, 2) => day_6_part_2(input),
 
-        (7, 1) => day_7_part_1(input),
-        (7, 2) => day_7_part_2(input),
+        (7, 1) => day_7_part_1(input) as i32,
+        (7, 2) => day_7_part_2(input) as i32,
 
         (8, 1) => day_8_part_1(input),
         (8, 2) => day_8_part_2(input),
@@ -633,12 +633,83 @@ fn day_6_part_2(input: String) -> i32 {
 }
 
 
-fn day_7_part_1(_: String) -> i32 {
-    0
+fn day_7_part_1(input: String) -> i128 {
+    #[derive(Debug)]
+    enum Operators { Add, Multiply }
+
+    impl Operators {
+        fn eval(&self, a: i128, b: i128) -> i128 {
+            match self {
+                Operators::Add => a + b,
+                Operators::Multiply => a * b,
+            }
+        }
+    }
+
+    fn cmb(prev: i128, nums: &Vec<i128>, i: usize, target: i128) -> bool {
+        if i >= nums.len() {
+            return prev == target;
+        }
+
+        [Operators::Add, Operators::Multiply]
+            .into_iter()
+            .any(|operator| {
+                let ev = operator.eval(prev, nums[i]);
+                cmb(ev, nums, i + 1, target)
+            })
+    }
+
+    input
+        .split("\n")
+        .map(|line| {
+            let mut parts = line.split(": ");
+            let eq = parts.next().unwrap().parse::<i128>().unwrap();
+            let nums = parts.next().unwrap().split_whitespace().filter_map(|n| n.parse::<i128>().ok()).collect::<Vec<i128>>();
+
+            (eq, nums)
+        })
+        .filter(|(target, nums)| cmb(nums[0], nums, 1, *target))
+        .fold(0, |acc, (target, _)| acc + target)
 }
 
-fn day_7_part_2(_: String) -> i32 {
-    0
+fn day_7_part_2(input: String) -> i128 {
+    #[derive(Debug)]
+    enum Operators { Add, Multiply, Concatenate }
+
+    impl Operators {
+        fn eval(&self, a: i128, b: i128) -> i128 {
+            match self {
+                Operators::Add => a + b,
+                Operators::Multiply => a * b,
+                Operators::Concatenate => format!("{}{}", a.to_string(), b.to_string()).parse::<i128>().unwrap()
+            }
+        }
+    }
+
+    fn cmb(prev: i128, nums: &Vec<i128>, i: usize, target: i128) -> bool {
+        if i >= nums.len() {
+            return prev == target;
+        }
+
+        [Operators::Add, Operators::Multiply, Operators::Concatenate]
+            .into_iter()
+            .any(|operator| {
+                let ev = operator.eval(prev, nums[i]);
+                cmb(ev, nums, i + 1, target)
+            })
+    }
+
+    input
+        .split("\n")
+        .map(|line| {
+            let mut parts = line.split(": ");
+            let eq = parts.next().unwrap().parse::<i128>().unwrap();
+            let nums = parts.next().unwrap().split_whitespace().filter_map(|n| n.parse::<i128>().ok()).collect::<Vec<i128>>();
+
+            (eq, nums)
+        })
+        .filter(|(target, nums)| cmb(nums[0], nums, 1, *target))
+        .fold(0, |acc, (target, _)| acc + target)
 }
 
 
