@@ -1,5 +1,4 @@
 
-
 pub fn part_1(input: String) -> i32 {
     let mut matrix: Vec<Vec<&str>> = vec![];
     let mut x: Vec<(i32, i32)> = vec![];
