@@ -34,24 +34,22 @@ pub fn part_1(input: String) -> i64 {
 
 pub fn part_2(input: String) -> i64 {
     const CYLCE: i32 = 15;
-    const MINI_CYLCE: i32 = 5;
+    const PRECOMPUTE_CYLCLE: i32 = 5;
 
-    fn fold_mini_cylce(n: i64, mini: &mut HashMap<i64, Vec<i64>>) {
-        if mini.contains_key(&n) {
-            return;
-        }
+    fn precompute(n: i64, mini: &mut HashMap<i64, Vec<i64>>) {
+        if mini.contains_key(&n) { return; }
 
-        let mut stones = vec![n];
-        (0..MINI_CYLCE).for_each(|_| mini_blink(&mut stones));
+        let stones = (0..PRECOMPUTE_CYLCLE).fold(vec![n], |mut stones, _| {
+            blink(&mut stones);
+            stones
+        });
 
         mini.insert(n, stones.clone());
 
-        for n in stones {
-            fold_mini_cylce(n, mini);
-        }
+        stones.into_iter().for_each(|n| precompute(n, mini));
     }
 
-    fn mini_blink(stones: &mut Vec<i64>) {
+    fn blink(stones: &mut Vec<i64>) {
         let mut i = 0;
         while i < stones.len() {
             if stones[i] == 0 {
@@ -72,7 +70,7 @@ pub fn part_2(input: String) -> i64 {
         }
     }
 
-    let mut initial = input
+    let initial = input
         .split_whitespace()
         .filter_map(|str| str.parse::<i64>().ok())
         .fold(HashMap::new(), |mut acc, n| {
@@ -80,17 +78,17 @@ pub fn part_2(input: String) -> i64 {
             acc
         });
 
-    let mini: HashMap<i64, Vec<i64>> = initial
+    let precomputed: HashMap<i64, Vec<i64>> = initial
         .iter()
         .fold(HashMap::new(), |mut acc, (n, _)| {
-            fold_mini_cylce(*n, &mut acc);
+            precompute(*n, &mut acc);
             acc
         });
 
     (0..CYLCE)
         .fold(initial, |major, _| {
             major.iter().fold(HashMap::new(), |mut major: HashMap<i64, i64>, (stone, n)| {
-                mini
+                precomputed
                     .get(stone)
                     .unwrap()
                     .iter()
