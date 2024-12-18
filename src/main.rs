@@ -4,18 +4,22 @@ use std::io::Read;
 use std::time::Instant;
 use itertools::Itertools;
 
-mod day_1;
-mod day_2;
-mod day_3;
-mod day_4;
-mod day_5;
-mod day_6;
-mod day_7;
-mod day_8;
-mod day_9;
+mod day_01;
+mod day_02;
+mod day_03;
+mod day_04;
+mod day_05;
+mod day_06;
+mod day_07;
+mod day_08;
+mod day_09;
 mod day_10;
 mod day_11;
 mod day_12;
+mod day_13;
+mod day_14;
+mod day_15;
+mod day_16;
 
 fn main() {
     let (day, part) = read_day();
@@ -25,32 +29,32 @@ fn main() {
 
     let instant = Instant::now();
     let output = match (day, part) {
-        (1, 1) => day_1::part_1(input),
-        (1, 2) => day_1::part_2(input),
+        (1, 1) => day_01::part_1(input),
+        (1, 2) => day_01::part_2(input),
 
-        (2, 1) => day_2::part_1(input),
-        (2, 2) => day_2::part_2(input),
+        (2, 1) => day_02::part_1(input),
+        (2, 2) => day_02::part_2(input),
 
-        (3, 1) => day_3::part_1(input),
-        (3, 2) => day_3::part_2(input),
+        (3, 1) => day_03::part_1(input),
+        (3, 2) => day_03::part_2(input),
 
-        (4, 1) => day_4::part_1(input),
-        (4, 2) => day_4::part_2(input),
+        (4, 1) => day_04::part_1(input),
+        (4, 2) => day_04::part_2(input),
 
-        (5, 1) => day_5::part_1(input),
-        (5, 2) => day_5::part_2(input),
+        (5, 1) => day_05::part_1(input),
+        (5, 2) => day_05::part_2(input),
 
-        (6, 1) => day_6::part_1(input),
-        (6, 2) => day_6::part_2(input),
+        (6, 1) => day_06::part_1(input),
+        (6, 2) => day_06::part_2(input),
 
-        (7, 1) => day_7::part_1(input) as i32,
-        (7, 2) => day_7::part_2(input) as i32,
+        (7, 1) => day_07::part_1(input) as i32,
+        (7, 2) => day_07::part_2(input) as i32,
 
-        (8, 1) => day_8::part_1(input),
-        (8, 2) => day_8::part_2(input),
+        (8, 1) => day_08::part_1(input),
+        (8, 2) => day_08::part_2(input),
 
-        (9, 1) => day_9::part_1(input) as i32,
-        (9, 2) => day_9::part_2(input) as i32,
+        (9, 1) => day_09::part_1(input) as i32,
+        (9, 2) => day_09::part_2(input) as i32,
 
         (10, 1) => day_10::part_1(input),
         (10, 2) => day_10::part_2(input),
@@ -60,6 +64,18 @@ fn main() {
 
         (12, 1) => day_12::part_1(input),
         (12, 2) => day_12::part_2(input),
+
+        (13, 1) => day_13::part_1(input),
+        (13, 2) => day_13::part_2(input),
+
+        (14, 1) => day_14::part_1(input),
+        (14, 2) => day_14::part_2(input),
+
+        (15, 1) => day_15::part_1(input),
+        (15, 2) => day_15::part_2(input),
+
+        (16, 1) => day_16::part_1(input),
+        (16, 2) => day_16::part_2(input),
         _ => panic!("Solution not implemented for day #{day} part #{part}")
     };
 
