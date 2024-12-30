@@ -4,6 +4,10 @@ use std::io::Read;
 use std::time::Instant;
 use itertools::Itertools;
 
+pub mod util {
+    pub mod point;
+}
+
 mod day_01;
 mod day_02;
 mod day_03;
