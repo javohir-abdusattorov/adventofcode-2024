@@ -1,6 +1,6 @@
-use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+use std::{fmt::Debug, ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign}};
 
-#[derive(Clone, Copy, Debug, Default, Eq, PartialEq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Copy, Default, Eq, PartialEq, PartialOrd, Ord, Hash)]
 pub struct Point {
     pub x: i32,
     pub y: i32,
@@ -61,6 +61,12 @@ impl Point {
 
     pub fn opposite(&self) -> Self {
         Self::new(-self.x, -self.y)
+    }
+}
+
+impl Debug for Point {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
     }
 }
 
