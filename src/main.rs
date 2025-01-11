@@ -92,10 +92,11 @@ fn main() {
         (18, 2) => day_18::part_2(input),
 
         (19, 1) => day_19::part_1(input),
-        (19, 2) => day_19::part_2(input),
+        (19, 2) => day_19::part_2(input) as i32,
 
         (20, 1) => day_20::part_1(input),
         (20, 2) => day_20::part_2(input),
+
         _ => panic!("Solution not implemented for day #{day} part #{part}")
     };
 
