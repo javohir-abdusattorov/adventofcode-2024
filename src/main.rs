@@ -28,6 +28,11 @@ mod day_17;
 mod day_18;
 mod day_19;
 mod day_20;
+mod day_21;
+mod day_22;
+mod day_23;
+mod day_24;
+mod day_25;
 
 fn main() {
     let (day, part) = read_day();
@@ -96,6 +101,21 @@ fn main() {
 
         (20, 1) => day_20::part_1(input),
         (20, 2) => day_20::part_2(input),
+
+        (21, 1) => day_21::part_1(input),
+        (21, 2) => day_21::part_2(input) as i32,
+
+        (22, 1) => day_22::part_1(input),
+        (22, 2) => day_22::part_2(input),
+
+        (23, 1) => day_23::part_1(input),
+        (23, 2) => day_23::part_2(input),
+
+        (24, 1) => day_24::part_1(input),
+        (24, 2) => day_24::part_2(input),
+
+        (25, 1) => day_25::part_1(input),
+        (25, 2) => day_25::part_2(input),
 
         _ => panic!("Solution not implemented for day #{day} part #{part}")
     };

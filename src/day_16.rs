@@ -4,13 +4,13 @@ use itertools::Itertools;
 use crate::util::point::Point;
 
 
-#[derive(Clone, Copy, Debug)]
-enum Direction {
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum Direction {
     Up, Down, Right, Left
 }
 
 impl Direction {
-    fn next(&self, point: Point) -> Point {
+    pub fn next(&self, point: Point) -> Point {
         point + match self {
             Direction::Up => Point::up(),
             Direction::Down => Point::down(),
@@ -19,7 +19,7 @@ impl Direction {
         }
     }
 
-    fn right(&self) -> Direction {
+    pub fn right(&self) -> Direction {
         match self {
             Direction::Up => Direction::Right,
             Direction::Down => Direction::Left,
@@ -28,12 +28,30 @@ impl Direction {
         }
     }
 
-    fn left(&self) -> Direction {
+    pub fn left(&self) -> Direction {
         match self {
             Direction::Up => Direction::Left,
             Direction::Down => Direction::Right,
             Direction::Right => Direction::Up,
             Direction::Left => Direction::Down,
+        }
+    }
+
+    pub fn back(&self) -> Direction {
+        match self {
+            Direction::Up => Direction::Down,
+            Direction::Down => Direction::Up,
+            Direction::Right => Direction::Left,
+            Direction::Left => Direction::Right,
+        }
+    }
+
+    pub fn print(&self) -> char {
+        match self {
+            Direction::Up => '^',
+            Direction::Down => 'v',
+            Direction::Right => '>',
+            Direction::Left => '<',
         }
     }
 }
