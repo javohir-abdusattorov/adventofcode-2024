@@ -105,7 +105,7 @@ fn main() {
         (21, 1) => day_21::part_1(input),
         (21, 2) => day_21::part_2(input) as i32,
 
-        (22, 1) => day_22::part_1(input),
+        (22, 1) => day_22::part_1(input) as i32,
         (22, 2) => day_22::part_2(input),
 
         (23, 1) => day_23::part_1(input),
