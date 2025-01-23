@@ -1,8 +1,8 @@
-# Advent Of Code 2024
+# Advent Of Code 2024 [FINISHED]
 Website - https://adventofcode.com/2024
 
 #### Last solved
-Day 19 - https://adventofcode.com/2024/day/19
+Day 25 - https://adventofcode.com/2024/day/25
 
 #### Run
 ```bash
